@@ -15,13 +15,34 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
+import javax.xml.bind.annotation.XmlAttribute;
+
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class DoubleInfo extends Info64 {
+public class DoubleInfo extends Info64<Double> {
 
-    public DoubleInfo() {
-        super(ConstantType.DOUBLE);
+    static byte[] doubleToBytes(final double d, final byte[] bytes) {
+        return LongInfo.longToBytes(Double.doubleToRawLongBits(d), bytes);
+    }
+
+    static byte[] doubleToBytes(final double d) {
+        return doubleToBytes(d, new byte[Double.BYTES]);
+    }
+
+    static double bytesToDouble(final byte[] bytes) {
+        return Double.longBitsToDouble(LongInfo.bytesToLong(bytes));
+    }
+
+    @XmlAttribute
+    @Override
+    public Double getBytesAsValue() {
+        return bytesToDouble(getBytes());
+    }
+
+    @Override
+    public void setBytesAsValue(final Double bytesAsValue) {
+        setBytes(doubleToBytes(bytesAsValue));
     }
 }

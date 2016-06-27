@@ -15,34 +15,51 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.DataOutput;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import javax.xml.bind.annotation.XmlAttachmentRef;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class Utf8Info extends Constant {
-
-    public Utf8Info() {
-        super(ConstantType.UTF8);
-    }
+public class Utf8Info extends CpInfo {
 
     @Override
-    protected void writeInfo(final ObjectOutput out) throws IOException {
+    public void write(final DataOutput out) throws IOException {
         out.writeShort(bytes.length);
         out.write(bytes);
     }
 
     @Override
-    protected void readInfo(final ObjectInput in)
-            throws IOException, ClassNotFoundException {
+    public void read(final DataInput in) throws IOException {
         bytes = new byte[in.readUnsignedShort()];
         in.readFully(bytes);
     }
 
+    @XmlAttribute
+    public String getBytesAsString() {
+        return bytes == null
+               ? null : new String(bytes, Charset.forName("UTF-8"));
+    }
+
+    public void setBytesAsString(final String bytesAsString) {
+        bytes = bytesAsString == null
+                ? null : bytesAsString.getBytes(Charset.forName("UTF-8"));
+    }
+
     @XmlElement(required = true)
+    @XmlJavaTypeAdapter(HexBinaryAdapter.class)
+    @XmlSchemaType(name = "hexBinary")
     private byte[] bytes;
 }

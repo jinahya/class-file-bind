@@ -21,7 +21,4 @@ package com.github.jinahya.jvm.classfile.constant;
  */
 public class InterfaceMethodRefInfo extends RefInfo {
 
-    public InterfaceMethodRefInfo() {
-        super(ConstantType.INTERFACE_METHODREF);
-    }
 }

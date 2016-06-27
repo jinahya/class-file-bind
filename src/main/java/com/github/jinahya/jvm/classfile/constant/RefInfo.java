@@ -15,30 +15,27 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public abstract class RefInfo extends Constant {
-
-    protected RefInfo(final ConstantType tag) {
-        super(tag);
-    }
+//@XmlTransient
+abstract class RefInfo extends CpInfo {
 
     @Override
-    protected void writeInfo(final ObjectOutput out) throws IOException {
+    public void write(final DataOutput out) throws IOException {
         out.writeShort(classIndex);
         out.writeShort(nameAndTypeIndex);
     }
 
     @Override
-    protected void readInfo(final ObjectInput in)
-            throws IOException, ClassNotFoundException {
+    public void read(final DataInput in) throws IOException {
         classIndex = in.readUnsignedShort();
         nameAndTypeIndex = in.readUnsignedShort();
     }

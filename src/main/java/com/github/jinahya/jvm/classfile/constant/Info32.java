@@ -15,32 +15,52 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @param <T> value type parameter
  */
-abstract class Info32 extends Constant {
+@XmlTransient
+abstract class Info32<T> extends CpInfo {
 
-    public Info32(final ConstantType type) {
-        super(type);
+    @Override
+    public void write(final DataOutput out) throws IOException {
+        out.write(bytes);
     }
 
     @Override
-    protected void writeInfo(final ObjectOutput out) throws IOException {
-        out.writeInt(bytes);
+    public void read(final DataInput in) throws IOException {
+        if (bytes == null) {
+            bytes = new byte[4];
+        }
+        in.readFully(bytes);
     }
 
-    @Override
-    protected void readInfo(final ObjectInput in)
-            throws IOException, ClassNotFoundException {
-        bytes = in.readInt();
+    public byte[] getBytes() {
+        return bytes;
     }
+
+    public void setBytes(final byte[] bytes) {
+        this.bytes = bytes;
+    }
+
+    @XmlAttribute
+    public abstract T getBytesAsValue();
+
+    public abstract void setBytesAsValue(T bytesAsValue);
 
     @XmlElement(required = true)
-    private int bytes;
+    @XmlJavaTypeAdapter(HexBinaryAdapter.class)
+    @XmlSchemaType(name = "hexBinary")
+    byte[] bytes;
 }

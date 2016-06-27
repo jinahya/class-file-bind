@@ -21,7 +21,4 @@ package com.github.jinahya.jvm.classfile.constant;
  */
 public class MethodRefInfo extends RefInfo {
 
-    public MethodRefInfo() {
-        super(ConstantType.METHODREF);
-    }
 }

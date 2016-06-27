@@ -21,7 +21,4 @@ package com.github.jinahya.jvm.classfile.constant;
  */
 public class FieldRefInfo extends RefInfo {
 
-    public FieldRefInfo() {
-        super(ConstantType.FIELDREF);
-    }
 }

@@ -15,37 +15,78 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import static java.lang.System.arraycopy;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @param <T> value type parameter
  */
-abstract class Info64 extends Constant {
+abstract class Info64<T> extends CpInfo {
 
-    public Info64(final ConstantType type) {
-        super(type);
+    @Override
+    public void write(final DataOutput out) throws IOException {
+        out.write(highBytes);
+        out.write(lowBytes);
     }
 
     @Override
-    protected void writeInfo(final ObjectOutput out) throws IOException {
-        out.writeInt(highBytes);
-        out.writeInt(lowBytes);
+    public void read(final DataInput in) throws IOException {
+        if (highBytes == null) {
+            highBytes = new byte[4];
+        }
+        in.readFully(highBytes);
+        if (lowBytes == null) {
+            lowBytes = new byte[4];
+        }
+        in.readFully(lowBytes);
     }
 
-    @Override
-    protected void readInfo(final ObjectInput in)
-            throws IOException, ClassNotFoundException {
-        highBytes = in.readInt();
-        lowBytes = in.readInt();
+    public byte[] getBytes() {
+        final byte[] bytes = new byte[8];
+        arraycopy(highBytes, 0, bytes, 0, 4);
+        arraycopy(lowBytes, 0, bytes, 4, 4);
+        return bytes;
     }
 
-    @XmlElement(required = true)
-    private int highBytes;
+    public void setBytes(final byte[] bytes) {
+        if (bytes != null && bytes.length != 8) {
+            throw new IllegalArgumentException("bytes.length != 8");
+        }
+        if (highBytes == null) {
+            highBytes = new byte[4];
+        }
+        arraycopy(bytes, 0, highBytes, 0, 4);
+        if (lowBytes == null) {
+            lowBytes = new byte[4];
+        }
+        arraycopy(bytes, 4, lowBytes, 0, 4);
+    }
+
+    public abstract T getBytesAsValue();
+
+    public abstract void setBytesAsValue(T bytesAsValue);
 
     @XmlElement(required = true)
-    private int lowBytes;
+    @XmlJavaTypeAdapter(HexBinaryAdapter.class)
+    @XmlSchemaType(name = "hexBinary")
+    @NotNull
+    @Size(min = 4, max = 4)
+    byte[] highBytes;
+
+    @XmlElement(required = true)
+    @XmlJavaTypeAdapter(HexBinaryAdapter.class)
+    @XmlSchemaType(name = "hexBinary")
+    @NotNull
+    @Size(min = 4, max = 4)
+    byte[] lowBytes;
 }
