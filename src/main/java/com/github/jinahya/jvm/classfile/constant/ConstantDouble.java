@@ -15,27 +15,34 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
 
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class MethodTypeInfo extends CpInfo {
+public class ConstantDouble extends Info64<Double> {
 
+    static byte[] doubleToBytes(final double d, final byte[] bytes) {
+        return ConstantLong.longToBytes(Double.doubleToRawLongBits(d), bytes);
+    }
+
+    static byte[] doubleToBytes(final double d) {
+        return doubleToBytes(d, new byte[Double.BYTES]);
+    }
+
+    static double bytesToDouble(final byte[] bytes) {
+        return Double.longBitsToDouble(ConstantLong.bytesToLong(bytes));
+    }
+
+    @XmlAttribute
     @Override
-    public void write(final DataOutput out) throws IOException {
-        out.writeShort(descriptorIndex);
+    public Double getBytesAsValue() {
+        return bytesToDouble(getBytes());
     }
 
     @Override
-    public void read(final DataInput in) throws IOException {
-        descriptorIndex = in.readUnsignedShort();
+    public void setBytesAsValue(final Double bytesAsValue) {
+        setBytes(doubleToBytes(bytesAsValue));
     }
-
-    @XmlElement(required = true)
-    private int descriptorIndex;
 }

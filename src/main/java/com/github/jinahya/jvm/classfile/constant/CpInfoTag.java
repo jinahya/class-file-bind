@@ -23,39 +23,44 @@ import javax.xml.bind.annotation.XmlEnumValue;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @XmlEnum(value = Integer.class)
-public enum CpTag {
+public enum CpInfoTag {
 
     @XmlEnumValue(value = "7")
-    CONSTANT_Class(7, ClassInfo.class),
+    CONSTANT_Class(7, ConstantClassInfo.class),
     @XmlEnumValue(value = "9")
-    CONSTANT_Fieldref(9, FieldRefInfo.class),
+    CONSTANT_Fieldref(9, ConstantFieldrefInfo.class),
     @XmlEnumValue(value = "10")
-    CONSTANT_Methodref(10, MethodRefInfo.class),
+    CONSTANT_Methodref(10, ConstantMethodrefInfo.class),
     @XmlEnumValue(value = "11")
-    CONSTANT_InterfaceMethodref(11, InterfaceMethodRefInfo.class),
+    CONSTANT_InterfaceMethodref(11, ConstantInterfaceMethodrefInfo.class),
     @XmlEnumValue(value = "8")
-    CONSTANT_String(8, StringInfo.class),
+    CONSTANT_String(8, ConstantString.class),
     @XmlEnumValue(value = "3")
-    CONSTANT_Integer(3, IntegerInfo.class),
+    CONSTANT_Integer(3, ConstantInteger.class),
     @XmlEnumValue(value = "4")
-    CONSTANT_Float(4, FloatInfo.class),
+    CONSTANT_Float(4, ConstantFloat.class),
     @XmlEnumValue(value = "5")
-    CONSTANT_Long(5, LongInfo.class),
+    CONSTANT_Long(5, ConstantLong.class),
     @XmlEnumValue(value = "6")
-    CONSTANT_Double(6, DoubleInfo.class),
+    CONSTANT_Double(6, ConstantDouble.class),
     @XmlEnumValue(value = "12")
-    CONSTANT_NameAndType(12, NameAndTypeInfo.class),
+    CONSTANT_NameAndType(12, ConstantNameAndType.class),
     @XmlEnumValue(value = "1")
-    CONSTANT_Utf8(1, Utf8Info.class),
+    CONSTANT_Utf8(1, ConstantUtf8.class),
     @XmlEnumValue(value = "15")
-    CONSTANT_MethodHandle(15, MethodHandleInfo.class),
+    CONSTANT_MethodHandle(15, ConstantMethodHandle.class),
     @XmlEnumValue(value = "16")
-    CONSTANT_MethodType(16, MethodTypeInfo.class),
+    CONSTANT_MethodType(16, ConstantMethodType.class),
     @XmlEnumValue(value = "18")
-    CONSTANT_InvokeDynamic(18, InvokeDynamicInfo.class);
+    CONSTANT_InvokeDynamic(18, ConstantInvokeDynamic.class),
+    @XmlEnumValue(value = "19")
+    CONSTANT_Module(19, ConstantModule.class),
+    @XmlEnumValue(value = "20")
+    CONSTANT_Package(20, ConstantPackage.class),;
 
-    public static CpTag valueOf(final int value) {
-        for (final CpTag v : values()) {
+    // -------------------------------------------------------------------------
+    public static CpInfoTag valueOf(final int value) {
+        for (final CpInfoTag v : values()) {
             if (v.value == value) {
                 return v;
             }
@@ -63,29 +68,32 @@ public enum CpTag {
         throw new IllegalArgumentException("unknown value: " + value);
     }
 
-    public static CpTag valueOf(final Class<? extends CpInfo> klass) {
-        for (final CpTag v : values()) {
-            if (v.infoClass == klass) {
+    public static CpInfoTag valueOf(final Class<? extends CpInfo> klass) {
+        for (final CpInfoTag v : values()) {
+            if (v.klass == klass) {
                 return v;
             }
         }
         throw new IllegalArgumentException("unknown klass: " + klass);
     }
 
-    private CpTag(final int value, final Class<? extends CpInfo> infoClass) {
+    // -------------------------------------------------------------------------
+    private CpInfoTag(final int value, final Class<? extends CpInfo> klass) {
         this.value = value;
-        this.infoClass = infoClass;
+        this.klass = klass;
     }
 
+    // -------------------------------------------------------------------------
     public int getValue() {
         return value;
     }
 
     public Class<? extends CpInfo> getInfoClass() {
-        return infoClass;
+        return klass;
     }
 
+    // -------------------------------------------------------------------------
     private int value;
 
-    private Class<? extends CpInfo> infoClass;
+    private Class<? extends CpInfo> klass;
 }

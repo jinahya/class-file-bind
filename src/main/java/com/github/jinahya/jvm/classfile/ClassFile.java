@@ -16,7 +16,7 @@
 package com.github.jinahya.jvm.classfile;
 
 import com.github.jinahya.jvm.classfile.constant.CpInfo;
-import com.github.jinahya.jvm.classfile.constant.CpTag;
+import com.github.jinahya.jvm.classfile.constant.CpInfoTag;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -35,8 +35,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class ClassFile implements Serializable {
 
+    // -------------------------------------------------------------------------
     public static final int MAGIC = 0xCAFEBABE;
 
+    // -------------------------------------------------------------------------
     public void read(final DataInput in) throws IOException {
         if ((magic = in.readInt()) != MAGIC) {
             throw new IOException("wrong magic: " + magic);
@@ -51,7 +53,7 @@ public class ClassFile implements Serializable {
             final int tag = in.readUnsignedByte();
             System.out.println("i : " + i + "/" + tag);
             try {
-                final CpInfo info = CpTag.valueOf(tag).getInfoClass().newInstance();
+                final CpInfo info = CpInfoTag.valueOf(tag).getInfoClass().newInstance();
                 info.read(in);
                 constantPool.add(info);
             } catch (InstantiationException | IllegalAccessException e) {
@@ -76,6 +78,7 @@ public class ClassFile implements Serializable {
         return constantPool;
     }
 
+    // -------------------------------------------------------------------------
     @XmlElement(required = true)
     private int magic = MAGIC;
 

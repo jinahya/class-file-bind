@@ -24,18 +24,18 @@ import javax.xml.bind.annotation.XmlElement;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class ClassInfo extends CpInfo {
+public class ConstantString extends CpInfo {
 
     @Override
     public void write(final DataOutput out) throws IOException {
-        out.writeShort(nameIndex);
+        out.writeShort(stringIndex);
     }
 
     @Override
     public void read(final DataInput in) throws IOException {
-        nameIndex = in.readUnsignedShort();
+        stringIndex = in.readUnsignedShort();
     }
 
     @XmlElement(required = true)
-    private int nameIndex;
+    private int stringIndex;
 }

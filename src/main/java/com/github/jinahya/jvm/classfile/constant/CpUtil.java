@@ -15,34 +15,22 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
-import javax.xml.bind.annotation.XmlAttribute;
-
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class FloatInfo extends Info32<Float> {
+final class CpUtil {
 
-    static byte[] floatToBytes(final float f, final byte[] bytes) {
-        return IntegerInfo.intToBytes(Float.floatToRawIntBits(f), bytes);
+    // -------------------------------------------------------------------------
+    static byte[] u2(final int i) {
+        return new byte[]{
+            (byte) ((i >> Byte.SIZE) & 0xFF),
+            (byte) (i & 0xFF)
+        };
     }
 
-    static byte[] floatToBytes(final float f) {
-        return floatToBytes(f, new byte[Float.BYTES]);
-    }
-
-    static float bytesToFloat(final byte[] bytes) {
-        return Float.intBitsToFloat(IntegerInfo.bytesToInt(bytes));
-    }
-
-    @Override
-    @XmlAttribute
-    public Float getBytesAsValue() {
-        return bytesToFloat(getBytes());
-    }
-
-    @Override
-    public void setBytesAsValue(final Float bytesAsValue) {
-        setBytes(floatToBytes(bytesAsValue));
+    // -------------------------------------------------------------------------
+    private CpUtil() {
+        super();
     }
 }

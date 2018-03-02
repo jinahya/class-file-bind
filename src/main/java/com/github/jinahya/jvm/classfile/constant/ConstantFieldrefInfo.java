@@ -15,27 +15,10 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import javax.xml.bind.annotation.XmlElement;
-
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class StringInfo extends CpInfo {
+public class ConstantFieldrefInfo extends RefInfo {
 
-    @Override
-    public void write(final DataOutput out) throws IOException {
-        out.writeShort(stringIndex);
-    }
-
-    @Override
-    public void read(final DataInput in) throws IOException {
-        stringIndex = in.readUnsignedShort();
-    }
-
-    @XmlElement(required = true)
-    private int stringIndex;
 }

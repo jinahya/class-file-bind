@@ -15,6 +15,7 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
+import com.github.jinahya.jvm.classfile.ClassFile;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -24,34 +25,64 @@ import javax.xml.bind.annotation.XmlSeeAlso;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-@XmlSeeAlso({ClassInfo.class, DoubleInfo.class, FieldRefInfo.class,
-             FloatInfo.class, IntegerInfo.class, InterfaceMethodRefInfo.class,
-             InvokeDynamicInfo.class, LongInfo.class, MethodHandleInfo.class,
-             Utf8Info.class})
+@XmlSeeAlso({ConstantClassInfo.class, ConstantFieldrefInfo.class,
+             ConstantMethodrefInfo.class, ConstantInterfaceMethodrefInfo.class,
+             ConstantString.class, ConstantInteger.class, ConstantFloat.class,
+             ConstantLong.class, ConstantDouble.class,
+             ConstantNameAndType.class, ConstantUtf8.class,
+             ConstantMethodHandle.class, ConstantMethodType.class,
+             ConstantInvokeDynamic.class, ConstantModule.class,
+             ConstantPackage.class})
 public abstract class CpInfo {
 
-//    public static final Map<CpTag, Class<? extends CpInfo>> CLASSES;
-//
-//    static {
-//        final EnumMap<CpTag, Class<? extends CpInfo>> classes
-//                = new EnumMap<CpTag, Class<? extends CpInfo>>(CpTag.class);
-//        classes.put(CpTag.CONSTANT_Class, ClassInfo.class);
-//        classes.put(CpTag.CONSTANT_Fieldref, FieldRefInfo.class);
-//        classes.put(CpTag.CONSTANT_Methodref, MethodRefInfo.class);
-//        classes.put(CpTag.CONSTANT_InterfaceMethodref, InterfaceMethodRefInfo.class);
-//        classes.put(CpTag.CONSTANT_String, StringInfo.class);
-//        classes.put(CpTag.CONSTANT_Integer, IntegerInfo.class);
-//        classes.put(CpTag.CONSTANT_Float, FloatInfo.class);
-//        classes.put(CpTag.CONSTANT_Long, LongInfo.class);
-//        classes.put(CpTag.CONSTANT_Double, DoubleInfo.class);
-//        classes.put(CpTag.CONSTANT_NameAndType, NameAndTypeInfo.class);
-//        classes.put(CpTag.CONSTANT_Utf8, Utf8Info.class);
-//        classes.put(CpTag.CONSTANT_MethodHandle, MethodHandleInfo.class);
-//        classes.put(CpTag.CONSTANT_MethodType, MethodTypeInfo.class);
-//        classes.put(CpTag.CONSTANT_InvokeDynamic, InvokeDynamicInfo.class);
-//        CLASSES = Collections.unmodifiableMap(classes);
-//    }
+    // -------------------------------------------------------------------------
+    static byte[] u2(final int i) {
+        return new byte[]{
+            (byte) ((i >> Byte.SIZE) & 0xFF),
+            (byte) (i & 0xFF)
+        };
+    }
+
+    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     public abstract void read(DataInput in) throws IOException;
 
     public abstract void write(DataOutput out) throws IOException;
+
+    // --------------------------------------------------------------------- tag
+    public int getTag() {
+        return tag;
+    }
+
+    public void setTag(final int tag) {
+        this.tag = tag;
+    }
+
+    // -------------------------------------------------------------------- info
+    public byte[] getInfo() {
+        return info;
+    }
+
+    public void setInfo(final byte[] info) {
+        this.info = info;
+    }
+
+    // --------------------------------------------------------------- classFile
+    public ClassFile getClassFile() {
+        return classFile;
+    }
+
+    public void setClassFile(final ClassFile classFile) {
+        this.classFile = classFile;
+    }
+
+    // -------------------------------------------------------------------------
+    //@Min(0)
+    //@Max(255)
+    private int tag;
+
+    private byte[] info;
+
+    // -------------------------------------------------------------------------
+    ClassFile classFile;
 }

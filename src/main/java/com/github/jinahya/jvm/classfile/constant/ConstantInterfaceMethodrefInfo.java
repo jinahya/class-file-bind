@@ -15,32 +15,10 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import javax.xml.bind.annotation.XmlElement;
-
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class InvokeDynamicInfo extends CpInfo {
+public class ConstantInterfaceMethodrefInfo extends RefInfo {
 
-    @Override
-    public void write(final DataOutput out) throws IOException {
-        out.writeShort(bootstrapMethodAttrIndex);
-        out.writeShort(nameAndTypeIndex);
-    }
-
-    @Override
-    public void read(final DataInput in) throws IOException {
-        bootstrapMethodAttrIndex = in.readUnsignedShort();
-        nameAndTypeIndex = in.readUnsignedShort();
-    }
-
-    @XmlElement(required = true)
-    private int bootstrapMethodAttrIndex;
-
-    @XmlElement(required = true)
-    private int nameAndTypeIndex;
 }

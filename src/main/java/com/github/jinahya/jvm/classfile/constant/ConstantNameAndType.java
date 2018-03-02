@@ -15,10 +15,32 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import javax.xml.bind.annotation.XmlElement;
+
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class FieldRefInfo extends RefInfo {
+public class ConstantNameAndType extends CpInfo {
 
+    @Override
+    public void write(final DataOutput out) throws IOException {
+        out.writeShort(nameIndex);
+        out.writeShort(descriptorIndex);
+    }
+
+    @Override
+    public void read(final DataInput in) throws IOException {
+        nameIndex = in.readUnsignedShort();
+        descriptorIndex = in.readUnsignedShort();
+    }
+
+    @XmlElement(required = true)
+    private int nameIndex;
+
+    @XmlElement(required = true)
+    private int descriptorIndex;
 }

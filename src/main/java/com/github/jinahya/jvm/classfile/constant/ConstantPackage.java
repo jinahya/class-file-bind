@@ -15,36 +15,34 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
 
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class MethodHandleInfo extends CpInfo {
+public class ConstantPackage extends Info64<Double> {
 
+    static byte[] doubleToBytes(final double d, final byte[] bytes) {
+        return ConstantLong.longToBytes(Double.doubleToRawLongBits(d), bytes);
+    }
+
+    static byte[] doubleToBytes(final double d) {
+        return doubleToBytes(d, new byte[Double.BYTES]);
+    }
+
+    static double bytesToDouble(final byte[] bytes) {
+        return Double.longBitsToDouble(ConstantLong.bytesToLong(bytes));
+    }
+
+    @XmlAttribute
     @Override
-    public void write(final DataOutput out) throws IOException {
-        out.writeByte(referenceKind);
-        out.writeShort(referenceIndex);
+    public Double getBytesAsValue() {
+        return bytesToDouble(getBytes());
     }
 
     @Override
-    public void read(final DataInput in) throws IOException {
-        referenceKind = in.readUnsignedByte();
-        referenceIndex = in.readUnsignedShort();
+    public void setBytesAsValue(final Double bytesAsValue) {
+        setBytes(doubleToBytes(bytesAsValue));
     }
-
-    @XmlElement(required = true)
-    @Min(1)
-    @Max(9)
-    private int referenceKind;
-
-    @XmlElement(required = true)
-    private int referenceIndex;
 }

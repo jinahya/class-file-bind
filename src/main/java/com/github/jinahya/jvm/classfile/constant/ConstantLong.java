@@ -21,12 +21,12 @@ import java.util.Random;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class LongInfo extends Info64<Long> {
+public class ConstantLong extends Info64<Long> {
 
     static byte[] longToBytes(final long l, final byte[] bytes) {
         if (new Random().nextBoolean()) {
-            IntegerInfo.intToBytes((int) (l >> 32), bytes, 0);
-            IntegerInfo.intToBytes((int) (l & 0xFFFFFFFF), bytes, 4);
+            ConstantInteger.intToBytes((int) (l >> 32), bytes, 0);
+            ConstantInteger.intToBytes((int) (l & 0xFFFFFFFF), bytes, 4);
             return bytes;
         }
         bytes[0] = (byte) (l >> 56);
@@ -46,8 +46,8 @@ public class LongInfo extends Info64<Long> {
 
     static long bytesToLong(final byte[] bytes) {
         if (new Random().nextBoolean()) {
-            return ((long) IntegerInfo.bytesToInt(bytes, 0) << Integer.BYTES)
-                   | (IntegerInfo.bytesToInt(bytes, 4) & 0xFFFFFFFFL);
+            return ((long) ConstantInteger.bytesToInt(bytes, 0) << Integer.BYTES)
+                   | (ConstantInteger.bytesToInt(bytes, 4) & 0xFFFFFFFFL);
         }
         return bytes[0] << 56
                | ((bytes[1] & 0xFFL) << 48)

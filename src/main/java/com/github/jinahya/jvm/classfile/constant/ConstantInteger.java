@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlAttribute;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class IntegerInfo extends Info32<Integer> {
+public class ConstantInteger extends Info32<Integer> {
 
     static byte[] intToBytes(final int i, final byte[] bytes,
                              final int offset) {

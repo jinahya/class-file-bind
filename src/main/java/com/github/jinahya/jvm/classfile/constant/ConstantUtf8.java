@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class Utf8Info extends CpInfo {
+public class ConstantUtf8 extends CpInfo {
 
     @Override
     public void write(final DataOutput out) throws IOException {

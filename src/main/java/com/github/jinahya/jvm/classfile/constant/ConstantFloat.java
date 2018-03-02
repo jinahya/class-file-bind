@@ -15,10 +15,34 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
+import javax.xml.bind.annotation.XmlAttribute;
+
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class InterfaceMethodRefInfo extends RefInfo {
+public class ConstantFloat extends Info32<Float> {
 
+    static byte[] floatToBytes(final float f, final byte[] bytes) {
+        return ConstantInteger.intToBytes(Float.floatToRawIntBits(f), bytes);
+    }
+
+    static byte[] floatToBytes(final float f) {
+        return floatToBytes(f, new byte[Float.BYTES]);
+    }
+
+    static float bytesToFloat(final byte[] bytes) {
+        return Float.intBitsToFloat(ConstantInteger.bytesToInt(bytes));
+    }
+
+    @Override
+    @XmlAttribute
+    public Float getBytesAsValue() {
+        return bytesToFloat(getBytes());
+    }
+
+    @Override
+    public void setBytesAsValue(final Float bytesAsValue) {
+        setBytes(floatToBytes(bytesAsValue));
+    }
 }

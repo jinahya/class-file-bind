@@ -15,34 +15,32 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import javax.xml.bind.annotation.XmlElement;
 
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class DoubleInfo extends Info64<Double> {
+public class ConstantInvokeDynamic extends CpInfo {
 
-    static byte[] doubleToBytes(final double d, final byte[] bytes) {
-        return LongInfo.longToBytes(Double.doubleToRawLongBits(d), bytes);
-    }
-
-    static byte[] doubleToBytes(final double d) {
-        return doubleToBytes(d, new byte[Double.BYTES]);
-    }
-
-    static double bytesToDouble(final byte[] bytes) {
-        return Double.longBitsToDouble(LongInfo.bytesToLong(bytes));
-    }
-
-    @XmlAttribute
     @Override
-    public Double getBytesAsValue() {
-        return bytesToDouble(getBytes());
+    public void write(final DataOutput out) throws IOException {
+        out.writeShort(bootstrapMethodAttrIndex);
+        out.writeShort(nameAndTypeIndex);
     }
 
     @Override
-    public void setBytesAsValue(final Double bytesAsValue) {
-        setBytes(doubleToBytes(bytesAsValue));
+    public void read(final DataInput in) throws IOException {
+        bootstrapMethodAttrIndex = in.readUnsignedShort();
+        nameAndTypeIndex = in.readUnsignedShort();
     }
+
+    @XmlElement(required = true)
+    private int bootstrapMethodAttrIndex;
+
+    @XmlElement(required = true)
+    private int nameAndTypeIndex;
 }
