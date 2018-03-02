@@ -24,23 +24,25 @@ import javax.xml.bind.annotation.XmlElement;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class ConstantNameAndType extends CpInfo {
+public class ConstantMethodTypeInfo extends CpInfo {
 
+    // -------------------------------------------------------------------------
+    public ConstantMethodTypeInfo() {
+        super(CpInfoTag.CONSTANT_MethodType.getTagValue());
+    }
+
+    // -------------------------------------------------------------------------
     @Override
-    public void write(final DataOutput out) throws IOException {
-        out.writeShort(nameIndex);
+    public void writeInfo(final DataOutput out) throws IOException {
         out.writeShort(descriptorIndex);
     }
 
     @Override
-    public void read(final DataInput in) throws IOException {
-        nameIndex = in.readUnsignedShort();
+    public void readInfo(final DataInput in) throws IOException {
         descriptorIndex = in.readUnsignedShort();
     }
 
-    @XmlElement(required = true)
-    private int nameIndex;
-
+    // -------------------------------------------------------------------------
     @XmlElement(required = true)
     private int descriptorIndex;
 }

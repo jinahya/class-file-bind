@@ -19,6 +19,10 @@ package com.github.jinahya.jvm.classfile.constant;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class ConstantMethodrefInfo extends RefInfo {
+public class ConstantMethodrefInfo extends ConstantRefInfo<ConstantMethodrefInfo> {
 
+    // -------------------------------------------------------------------------
+    public ConstantMethodrefInfo() {
+        super(CpInfoTag.CONSTANT_Methodref.getTagValue());
+    }
 }

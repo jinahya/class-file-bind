@@ -19,7 +19,11 @@ import com.github.jinahya.jvm.classfile.ClassFile;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,44 +33,51 @@ import javax.xml.bind.annotation.XmlSeeAlso;
              ConstantMethodrefInfo.class, ConstantInterfaceMethodrefInfo.class,
              ConstantString.class, ConstantInteger.class, ConstantFloat.class,
              ConstantLong.class, ConstantDouble.class,
-             ConstantNameAndType.class, ConstantUtf8.class,
-             ConstantMethodHandle.class, ConstantMethodType.class,
-             ConstantInvokeDynamic.class, ConstantModule.class,
-             ConstantPackage.class})
+             ConstantNameAndTypeInfo.class, ConstantUtf8Info.class,
+             ConstantMethodHandleInfo.class, ConstantMethodTypeInfo.class,
+             ConstantInvokeDynamicInfo.class, ConstantModuleInfo.class,
+             ConstantPackageInfo.class})
 public abstract class CpInfo {
 
     // -------------------------------------------------------------------------
-    static byte[] u2(final int i) {
-        return new byte[]{
-            (byte) ((i >> Byte.SIZE) & 0xFF),
-            (byte) (i & 0xFF)
-        };
+    public static final int VALUE_CONSTANT_CLASS = 7;
+
+    public static final int VALUE_CONSTANT_FIELDREF = 8;
+
+    // -------------------------------------------------------------------------
+    public abstract void readInfo(DataInput in) throws IOException;
+
+    public abstract void writeInfo(DataOutput out) throws IOException;
+
+    // -------------------------------------------------------------------------
+    public CpInfo(final int tag) {
+        super();
+        this.tag = tag;
     }
 
     // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
-    public abstract void read(DataInput in) throws IOException;
-
-    public abstract void write(DataOutput out) throws IOException;
+    @AssertTrue
+    private boolean isTagValid() {
+        return getTag() == CpInfoTag.valueOf(getClass()).getTagValue();
+    }
 
     // --------------------------------------------------------------------- tag
     public int getTag() {
         return tag;
     }
 
-    public void setTag(final int tag) {
-        this.tag = tag;
-    }
+//    public void setTag(final int tag) {
+//        this.tag = tag;
+//    }
 
-    // -------------------------------------------------------------------- info
-    public byte[] getInfo() {
-        return info;
-    }
-
-    public void setInfo(final byte[] info) {
-        this.info = info;
-    }
-
+//    // -------------------------------------------------------------------- info
+//    public byte[] getInfo() {
+//        return info;
+//    }
+//
+//    public void setInfo(final byte[] info) {
+//        this.info = info;
+//    }
     // --------------------------------------------------------------- classFile
     public ClassFile getClassFile() {
         return classFile;
@@ -79,10 +90,13 @@ public abstract class CpInfo {
     // -------------------------------------------------------------------------
     //@Min(0)
     //@Max(255)
-    private int tag;
+    @XmlElement(required = true)
+    final int tag;
 
-    private byte[] info;
-
+//    @XmlElement(required = true)
+//    private byte[] info;
     // -------------------------------------------------------------------------
+    @XmlTransient
+    @NotNull
     ClassFile classFile;
 }

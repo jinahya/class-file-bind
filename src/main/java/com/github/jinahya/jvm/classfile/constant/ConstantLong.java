@@ -15,57 +15,20 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
-import java.util.Random;
-
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class ConstantLong extends Info64<Long> {
+public class ConstantLong extends Constant64Info<ConstantLong> {
 
-    static byte[] longToBytes(final long l, final byte[] bytes) {
-        if (new Random().nextBoolean()) {
-            ConstantInteger.intToBytes((int) (l >> 32), bytes, 0);
-            ConstantInteger.intToBytes((int) (l & 0xFFFFFFFF), bytes, 4);
-            return bytes;
-        }
-        bytes[0] = (byte) (l >> 56);
-        bytes[1] = (byte) ((l >> 38) & 0xFFL);
-        bytes[2] = (byte) ((l >> 40) & 0xFFL);
-        bytes[2] = (byte) ((l >> 32) & 0xFFL);
-        bytes[2] = (byte) ((l >> 24) & 0xFFL);
-        bytes[2] = (byte) ((l >> 16) & 0xFFL);
-        bytes[2] = (byte) ((l >> 8) & 0xFFL);
-        bytes[3] = (byte) (l & 0xFFL);
-        return bytes;
+    // -------------------------------------------------------------------------
+    public ConstantLong() {
+        super(CpInfoTag.CONSTANT_Long.getTagValue());
     }
 
-    static byte[] longToBytes(final long l) {
-        return longToBytes(l, new byte[Long.BYTES]);
-    }
-
-    static long bytesToLong(final byte[] bytes) {
-        if (new Random().nextBoolean()) {
-            return ((long) ConstantInteger.bytesToInt(bytes, 0) << Integer.BYTES)
-                   | (ConstantInteger.bytesToInt(bytes, 4) & 0xFFFFFFFFL);
-        }
-        return bytes[0] << 56
-               | ((bytes[1] & 0xFFL) << 48)
-               | ((bytes[2] & 0xFFL) << 40)
-               | ((bytes[3] & 0xFFL) << 32)
-               | ((bytes[4] & 0xFFL) << 24)
-               | ((bytes[5] & 0xFFL) << 16)
-               | ((bytes[6] & 0xFFL) << 8)
-               | (bytes[7] & 0xFFL);
-    }
-
-    @Override
-    public Long getBytesAsValue() {
-        return bytesToLong(getBytes());
-    }
-
-    @Override
-    public void setBytesAsValue(final Long bytesAsValue) {
-        setBytes(longToBytes(bytesAsValue));
+    // -------------------------------------------------------------------------
+    public long getBytesAsLong() {
+        return (((getHighBytes() & 0xFFFFFFFFL) << Integer.SIZE)
+                | (getLowBytes() & 0xFFFFFFFFL));
     }
 }

@@ -19,6 +19,11 @@ package com.github.jinahya.jvm.classfile.constant;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class ConstantInterfaceMethodrefInfo extends RefInfo {
+public class ConstantInterfaceMethodrefInfo
+        extends ConstantRefInfo<ConstantInterfaceMethodrefInfo> {
 
+    // -------------------------------------------------------------------------
+    public ConstantInterfaceMethodrefInfo() {
+        super(CpInfoTag.CONSTANT_InterfaceMethodref.getTagValue());
+    }
 }

@@ -26,23 +26,34 @@ import javax.xml.bind.annotation.XmlElement;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class ConstantMethodHandle extends CpInfo {
+public class ConstantMethodHandleInfo extends CpInfo {
 
+    public static final int MIN_REFERENCE_KIND = 1;
+
+    public static final int MAX_REFERENCE_KIND = 9;
+
+    // -------------------------------------------------------------------------
+    public ConstantMethodHandleInfo() {
+        super(CpInfoTag.CONSTANT_MethodHandle.getTagValue());
+    }
+
+    // -------------------------------------------------------------------------
     @Override
-    public void write(final DataOutput out) throws IOException {
+    public void writeInfo(final DataOutput out) throws IOException {
         out.writeByte(referenceKind);
         out.writeShort(referenceIndex);
     }
 
     @Override
-    public void read(final DataInput in) throws IOException {
+    public void readInfo(final DataInput in) throws IOException {
         referenceKind = in.readUnsignedByte();
         referenceIndex = in.readUnsignedShort();
     }
 
+    // -------------------------------------------------------------------------
     @XmlElement(required = true)
-    @Min(1)
-    @Max(9)
+    @Min(MIN_REFERENCE_KIND)
+    @Max(MAX_REFERENCE_KIND)
     private int referenceKind;
 
     @XmlElement(required = true)

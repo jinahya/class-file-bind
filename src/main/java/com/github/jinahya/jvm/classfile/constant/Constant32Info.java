@@ -18,12 +18,10 @@ package com.github.jinahya.jvm.classfile.constant;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
@@ -31,36 +29,36 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * @param <T> value type parameter
  */
 @XmlTransient
-abstract class Info32<T> extends CpInfo {
+abstract class Constant32Info<T extends Constant32Info<T>> extends CpInfo {
 
+    public static final int BYTES_BYTES = 4;
+
+    // -------------------------------------------------------------------------
+    Constant32Info(final int tag) {
+        super(tag);
+    }
+
+    // -------------------------------------------------------------------------
     @Override
-    public void write(final DataOutput out) throws IOException {
-        out.write(bytes);
+    public void writeInfo(final DataOutput out) throws IOException {
+        out.writeInt(getBytes());
     }
 
     @Override
-    public void read(final DataInput in) throws IOException {
-        if (bytes == null) {
-            bytes = new byte[4];
-        }
-        in.readFully(bytes);
+    public void readInfo(final DataInput in) throws IOException {
+        setBytes(in.readInt());
     }
 
-    public byte[] getBytes() {
+    // -------------------------------------------------------------------------
+    public int getBytes() {
         return bytes;
     }
 
-    public void setBytes(final byte[] bytes) {
+    public void setBytes(final int bytes) {
         this.bytes = bytes;
     }
 
-    @XmlAttribute
-    public abstract T getBytesAsValue();
-
-    public abstract void setBytesAsValue(T bytesAsValue);
-
+    // -------------------------------------------------------------------------
     @XmlElement(required = true)
-    @XmlJavaTypeAdapter(HexBinaryAdapter.class)
-    @XmlSchemaType(name = "hexBinary")
-    byte[] bytes;
+    private int bytes;
 }

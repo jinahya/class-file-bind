@@ -18,31 +18,55 @@ package com.github.jinahya.jvm.classfile.constant;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-//@XmlTransient
-abstract class RefInfo extends CpInfo {
+@XmlTransient
+abstract class ConstantRefInfo<T extends ConstantRefInfo<T>> extends CpInfo {
 
+    static final int INFO_BYTE = 4;
+
+    // -------------------------------------------------------------------------
+   ConstantRefInfo(final int tag) {
+        super(tag);
+    }
+
+    // -------------------------------------------------------------------------
     @Override
-    public void write(final DataOutput out) throws IOException {
+    public void writeInfo(final DataOutput out) throws IOException {
         out.writeShort(classIndex);
         out.writeShort(nameAndTypeIndex);
     }
 
     @Override
-    public void read(final DataInput in) throws IOException {
+    public void readInfo(final DataInput in) throws IOException {
         classIndex = in.readUnsignedShort();
         nameAndTypeIndex = in.readUnsignedShort();
     }
 
-    @XmlElement(required = true)
+    // -------------------------------------------------------------- classIndex
+    public int getClassIndex() {
+        return classIndex;
+    }
+
+    public void setClassIndex(final int classIndex) {
+        this.classIndex = classIndex;
+    }
+
+    // -------------------------------------------------------- nameAndTypeIndex
+    public int getNameAndTypeIndex() {
+        return nameAndTypeIndex;
+    }
+
+    public void setNameAndTypeIndex(final int nameAndTypeIndex) {
+        this.nameAndTypeIndex = nameAndTypeIndex;
+    }
+
+    // -------------------------------------------------------------------------
     private int classIndex;
 
-    @XmlElement(required = true)
     private int nameAndTypeIndex;
 }

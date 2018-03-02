@@ -26,13 +26,19 @@ import javax.xml.bind.annotation.XmlElement;
  */
 public class ConstantString extends CpInfo {
 
+    // -------------------------------------------------------------------------
+    public ConstantString() {
+        super(CpInfoTag.CONSTANT_String.getTagValue());
+    }
+
+    // -------------------------------------------------------------------------
     @Override
-    public void write(final DataOutput out) throws IOException {
+    public void writeInfo(final DataOutput out) throws IOException {
         out.writeShort(stringIndex);
     }
 
     @Override
-    public void read(final DataInput in) throws IOException {
+    public void readInfo(final DataInput in) throws IOException {
         stringIndex = in.readUnsignedShort();
     }
 

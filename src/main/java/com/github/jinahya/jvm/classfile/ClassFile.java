@@ -36,6 +36,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ClassFile implements Serializable {
 
     // -------------------------------------------------------------------------
+    public static final int MIN_CONSTANT_POOL_COUNT = 1;
+
+    public static final int MAX_CONSTANT_POOL_COUNT = 6535;
+
+    public static final int MIN_CONSTANT_POOL_INDEX = MIN_CONSTANT_POOL_COUNT;
+
+    // -------------------------------------------------------------------------
     public static final int MAGIC = 0xCAFEBABE;
 
     // -------------------------------------------------------------------------
@@ -54,7 +61,7 @@ public class ClassFile implements Serializable {
             System.out.println("i : " + i + "/" + tag);
             try {
                 final CpInfo info = CpInfoTag.valueOf(tag).getInfoClass().newInstance();
-                info.read(in);
+                info.readInfo(in);
                 constantPool.add(info);
             } catch (InstantiationException | IllegalAccessException e) {
                 throw new RuntimeException(e);
@@ -76,6 +83,20 @@ public class ClassFile implements Serializable {
             constantPool = new ArrayList<CpInfo>();
         }
         return constantPool;
+    }
+
+    public CpInfo getConstant(final int constantPoolIndex) {
+        if (constantPoolIndex <= 0) {
+            throw new IllegalArgumentException(
+                    "constantPoolIndex(" + constantPoolIndex + ") <= 0");
+        }
+        if (constantPoolIndex > getConstantPool().size()) {
+            throw new IllegalArgumentException(
+                    "constantPoolIndex(" + constantPoolIndex
+                    + ") >= constant_pool_count("
+                    + (getConstantPool().size() + 1) + ")");
+        }
+        return getConstantPool().get(constantPoolIndex - 1);
     }
 
     // -------------------------------------------------------------------------

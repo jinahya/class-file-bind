@@ -19,6 +19,7 @@ import com.github.jinahya.jvm.classfile.ClassFileUtil;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import javax.validation.constraints.AssertTrue;
 import javax.xml.bind.annotation.XmlAttribute;
 
 /**
@@ -29,31 +30,36 @@ public class ConstantClassInfo extends CpInfo {
 
     // -------------------------------------------------------------------------
     public ConstantClassInfo() {
-        super();
-    }
-
-    @Override
-    public void write(final DataOutput out) throws IOException {
-        out.writeShort(nameIndex);
-    }
-
-    @Override
-    public void read(final DataInput in) throws IOException {
-        nameIndex = in.readUnsignedShort();
+        super(CpInfoTag.CONSTANT_Class.getTagValue());
     }
 
     // -------------------------------------------------------------------------
+    @AssertTrue
+    private boolean isNameIndexValid() {
+        return true;
+    }
+
+    // -------------------------------------------------------------------------
+    @Override
+    public void readInfo(final DataInput in) throws IOException {
+        setNameIndex(in.readUnsignedShort());
+    }
+
+    @Override
+    public void writeInfo(final DataOutput out) throws IOException {
+        out.writeShort(getNameIndex());
+    }
+
     // --------------------------------------------------------------- nameIndex
+    @XmlAttribute
     public int getNameIndex() {
         return nameIndex;
     }
 
     public void setNameIndex(final int nameIndex) {
         this.nameIndex = nameIndex;
-        setInfo(ClassFileUtil.u2(nameIndex));
     }
-
+    
     // -------------------------------------------------------------------------
-    @XmlAttribute(required = true)
     private int nameIndex;
 }

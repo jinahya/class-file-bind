@@ -44,56 +44,60 @@ public enum CpInfoTag {
     @XmlEnumValue(value = "6")
     CONSTANT_Double(6, ConstantDouble.class),
     @XmlEnumValue(value = "12")
-    CONSTANT_NameAndType(12, ConstantNameAndType.class),
+    CONSTANT_NameAndType(12, ConstantNameAndTypeInfo.class),
     @XmlEnumValue(value = "1")
-    CONSTANT_Utf8(1, ConstantUtf8.class),
+    CONSTANT_Utf8(1, ConstantUtf8Info.class),
     @XmlEnumValue(value = "15")
-    CONSTANT_MethodHandle(15, ConstantMethodHandle.class),
+    CONSTANT_MethodHandle(15, ConstantMethodHandleInfo.class),
     @XmlEnumValue(value = "16")
-    CONSTANT_MethodType(16, ConstantMethodType.class),
+    CONSTANT_MethodType(16, ConstantMethodTypeInfo.class),
     @XmlEnumValue(value = "18")
-    CONSTANT_InvokeDynamic(18, ConstantInvokeDynamic.class),
+    CONSTANT_InvokeDynamic(18, ConstantInvokeDynamicInfo.class),
     @XmlEnumValue(value = "19")
-    CONSTANT_Module(19, ConstantModule.class),
+    CONSTANT_Module(19, ConstantModuleInfo.class),
     @XmlEnumValue(value = "20")
-    CONSTANT_Package(20, ConstantPackage.class),;
+    CONSTANT_Package(20, ConstantPackageInfo.class),;
 
     // -------------------------------------------------------------------------
-    public static CpInfoTag valueOf(final int value) {
-        for (final CpInfoTag v : values()) {
-            if (v.value == value) {
-                return v;
+    public static CpInfoTag valueOf(final int tagValue) {
+        for (final CpInfoTag value : values()) {
+            if (value.tagValue == tagValue) {
+                return value;
             }
         }
-        throw new IllegalArgumentException("unknown value: " + value);
+        throw new IllegalArgumentException("unknown value: " + tagValue);
     }
 
-    public static CpInfoTag valueOf(final Class<? extends CpInfo> klass) {
-        for (final CpInfoTag v : values()) {
-            if (v.klass == klass) {
-                return v;
+    public static CpInfoTag valueOf(final Class<? extends CpInfo> infoClass) {
+        if (infoClass == null) {
+            throw new NullPointerException("infoClass is null");
+        }
+        for (final CpInfoTag value : values()) {
+            if (value.infoClass == infoClass) {
+                return value;
             }
         }
-        throw new IllegalArgumentException("unknown klass: " + klass);
+        throw new IllegalArgumentException("unknown infoClass: " + infoClass);
     }
 
     // -------------------------------------------------------------------------
-    private CpInfoTag(final int value, final Class<? extends CpInfo> klass) {
-        this.value = value;
-        this.klass = klass;
+    private CpInfoTag(final int tagValue,
+                      final Class<? extends CpInfo> infoClass) {
+        this.tagValue = tagValue;
+        this.infoClass = infoClass;
     }
 
     // -------------------------------------------------------------------------
-    public int getValue() {
-        return value;
+    public int getTagValue() {
+        return tagValue;
     }
 
     public Class<? extends CpInfo> getInfoClass() {
-        return klass;
+        return infoClass;
     }
 
     // -------------------------------------------------------------------------
-    private int value;
+    private int tagValue;
 
-    private Class<? extends CpInfo> klass;
+    private Class<? extends CpInfo> infoClass;
 }

@@ -19,6 +19,10 @@ package com.github.jinahya.jvm.classfile.constant;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class ConstantFieldrefInfo extends RefInfo {
+public class ConstantFieldrefInfo extends ConstantRefInfo<ConstantFieldrefInfo> {
 
+    // -------------------------------------------------------------------------
+    public ConstantFieldrefInfo() {
+        super(CpInfoTag.CONSTANT_Fieldref.getTagValue());
+    }
 }

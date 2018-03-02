@@ -31,7 +31,7 @@ public class CpInfoTagTest {
     static void assertUniqueValue() {
         final Set<Integer> values = new HashSet<>();
         for (final CpInfoTag value : CpInfoTag.values()) {
-            assertTrue(values.add(value.getValue()));
+            assertTrue(values.add(value.getTagValue()));
         }
     }
 

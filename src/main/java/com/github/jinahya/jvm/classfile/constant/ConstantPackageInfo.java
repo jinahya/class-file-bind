@@ -15,23 +15,43 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import javax.xml.bind.annotation.XmlElement;
+
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class ConstantFloat extends Constant32Info<ConstantFloat> {
+public class ConstantPackageInfo extends CpInfo {
 
     // -------------------------------------------------------------------------
-    public ConstantFloat() {
-        super(CpInfoTag.CONSTANT_Float.getTagValue());
+    public ConstantPackageInfo() {
+        super(CpInfoTag.CONSTANT_Package.getTagValue());
     }
 
     // -------------------------------------------------------------------------
-    public float getBytesAsFloat() {
-        return Float.intBitsToFloat(getBytes());
+    @Override
+    public void readInfo(final DataInput in) throws IOException {
+        setNameIndex(in.readUnsignedShort());
     }
 
-    public void setBytesAsFloat(final float bytesAsFloat) {
-        setBytes(Float.floatToRawIntBits(bytesAsFloat));
+    @Override
+    public void writeInfo(final DataOutput out) throws IOException {
+        out.writeShort(getNameIndex());
     }
+
+    // --------------------------------------------------------------- nameIndex
+    public int getNameIndex() {
+        return nameIndex;
+    }
+
+    public void setNameIndex(final int nameIndex) {
+        this.nameIndex = nameIndex;
+    }
+
+    // -------------------------------------------------------------------------
+    @XmlElement(required = true)
+    private int nameIndex;
 }

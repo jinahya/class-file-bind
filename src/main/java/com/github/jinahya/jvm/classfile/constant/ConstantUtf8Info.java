@@ -15,14 +15,11 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
-import java.io.ByteArrayInputStream;
 import java.io.DataInput;
-import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import javax.xml.bind.annotation.XmlAttachmentRef;
+import java.util.Arrays;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
@@ -33,20 +30,51 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class ConstantUtf8 extends CpInfo {
+public class ConstantUtf8Info extends CpInfo {
 
+    // -------------------------------------------------------------------------
+    public ConstantUtf8Info() {
+        super(CpInfoTag.CONSTANT_Utf8.getTagValue());
+    }
+
+    // -------------------------------------------------------------------------
     @Override
-    public void write(final DataOutput out) throws IOException {
+    public void writeInfo(final DataOutput out) throws IOException {
         out.writeShort(bytes.length);
         out.write(bytes);
     }
 
     @Override
-    public void read(final DataInput in) throws IOException {
+    public void readInfo(final DataInput in) throws IOException {
         bytes = new byte[in.readUnsignedShort()];
         in.readFully(bytes);
     }
 
+    // ------------------------------------------------------------------ length
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+        if (this.bytes != null && this.bytes.length != this.length) {
+            setBytes(Arrays.copyOf(this.bytes, this.length));
+        }
+    }
+
+    // ------------------------------------------------------------------- bytes
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    public void setBytes(byte[] bytes) {
+        this.bytes = bytes;
+        if (this.bytes != null) {
+            setLength(this.bytes.length);
+        }
+    }
+
+    // -------------------------------------------------------------------------
     @XmlAttribute
     public String getBytesAsString() {
         return bytes == null
@@ -57,6 +85,10 @@ public class ConstantUtf8 extends CpInfo {
         bytes = bytesAsString == null
                 ? null : bytesAsString.getBytes(Charset.forName("UTF-8"));
     }
+
+    // -------------------------------------------------------------------------
+    @XmlElement(required = true)
+    private int length;
 
     @XmlElement(required = true)
     @XmlJavaTypeAdapter(HexBinaryAdapter.class)

@@ -15,34 +15,23 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
-import javax.xml.bind.annotation.XmlAttribute;
-
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class ConstantDouble extends Info64<Double> {
+public class ConstantDouble extends Constant64Info<ConstantDouble> {
 
-    static byte[] doubleToBytes(final double d, final byte[] bytes) {
-        return ConstantLong.longToBytes(Double.doubleToRawLongBits(d), bytes);
+    // -------------------------------------------------------------------------
+    public ConstantDouble() {
+        super(CpInfoTag.CONSTANT_Double.getTagValue());
     }
 
-    static byte[] doubleToBytes(final double d) {
-        return doubleToBytes(d, new byte[Double.BYTES]);
+    // ----------------------------------------------------------- bytesAsDouble
+    public double getBytesAsDouble() {
+        return Double.longBitsToDouble(getBytesAsLong());
     }
 
-    static double bytesToDouble(final byte[] bytes) {
-        return Double.longBitsToDouble(ConstantLong.bytesToLong(bytes));
-    }
-
-    @XmlAttribute
-    @Override
-    public Double getBytesAsValue() {
-        return bytesToDouble(getBytes());
-    }
-
-    @Override
-    public void setBytesAsValue(final Double bytesAsValue) {
-        setBytes(doubleToBytes(bytesAsValue));
+    public void setBytesAsDouble(final double bytesAsDouble) {
+        setBytesAsLong(Double.doubleToRawLongBits(bytesAsDouble));
     }
 }
