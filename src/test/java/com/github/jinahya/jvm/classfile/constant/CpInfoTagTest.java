@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 public class CpInfoTagTest {
 
     // -------------------------------------------------------------------------    
-    @Test
+    //@Test
     static void assertUniqueValue() {
         final Set<Integer> values = new HashSet<>();
         for (final CpInfoTag value : CpInfoTag.values()) {
@@ -35,7 +35,7 @@ public class CpInfoTagTest {
         }
     }
 
-    @Test
+    //@Test
     static void assertUniqueKlass() {
         final Set<Class<?>> values = new HashSet<>();
         for (final CpInfoTag value : CpInfoTag.values()) {

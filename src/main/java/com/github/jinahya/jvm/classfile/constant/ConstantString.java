@@ -42,6 +42,7 @@ public class ConstantString extends CpInfo {
         stringIndex = in.readUnsignedShort();
     }
 
+    // -------------------------------------------------------------------------
     @XmlElement(required = true)
     private int stringIndex;
 }

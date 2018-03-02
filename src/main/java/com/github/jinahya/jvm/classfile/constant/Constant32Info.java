@@ -18,9 +18,7 @@ package com.github.jinahya.jvm.classfile.constant;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**

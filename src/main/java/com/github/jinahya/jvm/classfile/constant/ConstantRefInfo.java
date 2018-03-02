@@ -18,6 +18,7 @@ package com.github.jinahya.jvm.classfile.constant;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -27,10 +28,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlTransient
 abstract class ConstantRefInfo<T extends ConstantRefInfo<T>> extends CpInfo {
 
-    static final int INFO_BYTE = 4;
-
     // -------------------------------------------------------------------------
-   ConstantRefInfo(final int tag) {
+    ConstantRefInfo(final int tag) {
         super(tag);
     }
 
@@ -66,7 +65,9 @@ abstract class ConstantRefInfo<T extends ConstantRefInfo<T>> extends CpInfo {
     }
 
     // -------------------------------------------------------------------------
+    @XmlElement(required = true)
     private int classIndex;
 
+    @XmlElement(required = true)
     private int nameAndTypeIndex;
 }

@@ -18,6 +18,7 @@ package com.github.jinahya.jvm.classfile.constant;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
@@ -64,6 +65,7 @@ abstract class Constant64Info<T extends Constant64Info<T>> extends CpInfo {
     }
 
     // ------------------------------------------------------------- bytesAsLong
+    @XmlAttribute
     long getBytesAsLong() {
         return (((getHighBytes() & 0xFFFFFFFFL) << Integer.SIZE)
                 | (getLowBytes() & 0xFFFFFFFFL));

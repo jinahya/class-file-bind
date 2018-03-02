@@ -15,6 +15,8 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
+import javax.xml.bind.annotation.XmlAttribute;
+
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
@@ -26,7 +28,8 @@ public class ConstantFloat extends Constant32Info<ConstantFloat> {
         super(CpInfoTag.CONSTANT_Float.getTagValue());
     }
 
-    // -------------------------------------------------------------------------
+    // ------------------------------------------------------------ bytesAsFloat
+    @XmlAttribute
     public float getBytesAsFloat() {
         return Float.intBitsToFloat(getBytes());
     }

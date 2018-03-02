@@ -58,13 +58,14 @@ public class ClassFile implements Serializable {
         }
         for (int i = 1; i < constantPoolCount; i++) {
             final int tag = in.readUnsignedByte();
-            System.out.println("i : " + i + "/" + tag);
             try {
-                final CpInfo info = CpInfoTag.valueOf(tag).getInfoClass().newInstance();
-                info.readInfo(in);
-                constantPool.add(info);
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new RuntimeException(e);
+                final CpInfo cpInfo = CpInfoTag.valueOf(tag).getInfoClass()
+                        .getDeclaredConstructor().newInstance();
+                cpInfo.readInfo(in);
+                cpInfo.setClassFile(this);
+                constantPool.add(cpInfo);
+            } catch (final ReflectiveOperationException roe) {
+                throw new RuntimeException(roe);
             }
         }
         accessFlags = in.readUnsignedShort();

@@ -15,12 +15,12 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
-import com.github.jinahya.jvm.classfile.ClassFileUtil;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import javax.validation.constraints.AssertTrue;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 /**
  *
@@ -61,5 +61,6 @@ public class ConstantClassInfo extends CpInfo {
     }
     
     // -------------------------------------------------------------------------
+    @XmlElement(required = true)
     private int nameIndex;
 }

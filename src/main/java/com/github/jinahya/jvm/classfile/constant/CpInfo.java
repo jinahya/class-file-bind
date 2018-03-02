@@ -45,6 +45,7 @@ public abstract class CpInfo {
     public static final int VALUE_CONSTANT_FIELDREF = 8;
 
     // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     public abstract void readInfo(DataInput in) throws IOException;
 
     public abstract void writeInfo(DataOutput out) throws IOException;

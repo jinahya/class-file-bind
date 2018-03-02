@@ -17,9 +17,12 @@ package com.github.jinahya.jvm.classfile;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import static java.lang.invoke.MethodHandles.lookup;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
 import org.testng.annotations.Test;
 
 /**
@@ -28,6 +31,9 @@ import org.testng.annotations.Test;
  */
 public class ClassFileTest {
 
+    private static final Logger logger = getLogger(lookup().lookupClass());
+
+    // -------------------------------------------------------------------------
     @Test
     public void test() throws IOException, JAXBException {
         try (DataInputStream in = new DataInputStream(
@@ -35,18 +41,22 @@ public class ClassFileTest {
                         getClass().getSimpleName() + ".class"))) {
             final ClassFile bound = new ClassFile();
             bound.read(in);
-            final JAXBContext context = JAXBContext.newInstance(ClassFile.class);
+            logger.info("bound: {}", bound);
+            final JAXBContext context
+                    = JAXBContext.newInstance(ClassFile.class);
             final Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.setProperty(
+                    Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.marshal(bound, System.out);
         }
     }
 
+    // -------------------------------------------------------------------------
     private int i = 0;
 
-    private float f = .0f;
+    private float float_ = .0f;
 
-    private long l = 0L;
+    private long long_ = 0L;
 
-    private double d = .0d;
+    private double double_ = .0d;
 }

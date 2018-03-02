@@ -15,6 +15,8 @@
  */
 package com.github.jinahya.jvm.classfile.constant;
 
+import javax.xml.bind.annotation.XmlAttribute;
+
 /**
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
@@ -27,6 +29,7 @@ public class ConstantLong extends Constant64Info<ConstantLong> {
     }
 
     // -------------------------------------------------------------------------
+    @XmlAttribute
     public long getBytesAsLong() {
         return (((getHighBytes() & 0xFFFFFFFFL) << Integer.SIZE)
                 | (getLowBytes() & 0xFFFFFFFFL));
