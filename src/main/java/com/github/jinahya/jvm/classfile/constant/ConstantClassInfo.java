@@ -51,7 +51,6 @@ public class ConstantClassInfo extends CpInfo {
     }
 
     // --------------------------------------------------------------- nameIndex
-    @XmlAttribute
     public int getNameIndex() {
         return nameIndex;
     }

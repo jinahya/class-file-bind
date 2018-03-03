@@ -42,12 +42,17 @@ public class ClassFileTest {
             final ClassFile bound = new ClassFile();
             bound.read(in);
             logger.info("bound: {}", bound);
-            final JAXBContext context
-                    = JAXBContext.newInstance(ClassFile.class);
-            final Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(
-                    Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(bound, System.out);
+            try {
+                final JAXBContext context
+                        = JAXBContext.newInstance(ClassFile.class);
+                final Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(
+                        Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+                marshaller.marshal(bound, System.out);
+            } catch (final JAXBException jaxbe) {
+                jaxbe.printStackTrace(System.err);
+                throw jaxbe;
+            }
         }
     }
 
