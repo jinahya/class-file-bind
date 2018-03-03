@@ -55,6 +55,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>javax.persistence-api</artifactId>
+      <version>2.2</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
       <version>2.0.1.Final</version>
@@ -112,7 +118,7 @@
         <version>2.20</version>
         <configuration>
           <properties>
-<!--            <property>
+            <!--            <property>
               <name>listeners</name>
               <value>com.github.jinahya.bit.io.testng.InvokedMethodListener,com.github.jinahya.bit.io.testng.TestListener</value>
             </property>-->

@@ -86,7 +86,7 @@ public class ClassFile implements Serializable {
         return constantPool;
     }
 
-    public CpInfo getConstant(final int constantPoolIndex) {
+    public CpInfo constantPoolEntry(final int constantPoolIndex) {
         if (constantPoolIndex <= 0) {
             throw new IllegalArgumentException(
                     "constantPoolIndex(" + constantPoolIndex + ") <= 0");
