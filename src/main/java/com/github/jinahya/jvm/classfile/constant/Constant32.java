@@ -27,12 +27,12 @@ import javax.xml.bind.annotation.XmlTransient;
  * @param <T> value type parameter
  */
 @XmlTransient
-abstract class Constant32Info<T extends Constant32Info<T>> extends CpInfo {
+abstract class Constant32<T extends Constant32<T>> extends CpInfo {
 
     public static final int BYTES_BYTES = 4;
 
     // -------------------------------------------------------------------------
-    Constant32Info(final int tag) {
+    Constant32(final int tag) {
         super(tag);
     }
 
@@ -47,7 +47,7 @@ abstract class Constant32Info<T extends Constant32Info<T>> extends CpInfo {
         setBytes(in.readInt());
     }
 
-    // -------------------------------------------------------------------------
+    // ------------------------------------------------------------------- bytes
     public int getBytes() {
         return bytes;
     }

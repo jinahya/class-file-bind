@@ -26,7 +26,7 @@ import javax.persistence.OneToMany;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class Code extends Attribute {
+public class Code extends AttributeInfo {
 
     // -------------------------------------------------------------------------
     @Override
@@ -45,7 +45,8 @@ public class Code extends Attribute {
         }
         final int attributesCount = in.readUnsignedShort();
         for (int i = 0; i < attributesCount; i++) {
-            final Attribute attribute = Attribute.readInstance(in, classFile);
+            final AttributeInfo attribute = null;
+//                    = AttributeInfo.readInstance(in, classFile);
             getAttributes().add(attribute);
         }
     }
@@ -62,9 +63,9 @@ public class Code extends Attribute {
         for (final ExceptionTable exceptionTable : exceptionTables) {
             exceptionTable.write(out);
         }
-        final List<Attribute> attributes = getAttributes();
+        final List<AttributeInfo> attributes = getAttributes();
         out.writeShort(attributes.size());
-        for (final Attribute attribute : attributes) {
+        for (final AttributeInfo attribute : attributes) {
             attribute.writeInfo(out);
         }
     }
@@ -99,15 +100,15 @@ public class Code extends Attribute {
     // -------------------------------------------------------------------------
     public List<ExceptionTable> getExceptionTables() {
         if (exceptionTable == null) {
-            exceptionTable = new ArrayList<>();
+            exceptionTable = new ArrayList<ExceptionTable>();
         }
         return exceptionTable;
     }
 
     // -------------------------------------------------------------------------
-    public List<Attribute> getAttributes() {
+    public List<AttributeInfo> getAttributes() {
         if (attributes == null) {
-            attributes = new ArrayList<>();
+            attributes = new ArrayList<AttributeInfo>();
         }
         return attributes;
     }
@@ -122,5 +123,5 @@ public class Code extends Attribute {
     @OneToMany
     private List<ExceptionTable> exceptionTable;
 
-    private List<Attribute> attributes;
+    private List<AttributeInfo> attributes;
 }

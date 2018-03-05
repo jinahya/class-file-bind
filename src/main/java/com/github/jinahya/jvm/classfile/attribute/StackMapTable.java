@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlElement;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class StackMapTable extends Attribute {
+public class StackMapTable extends AttributeInfo {
 
     // -------------------------------------------------------------------------
     @Override
@@ -37,7 +37,7 @@ public class StackMapTable extends Attribute {
         out.writeShort(getConstantValueIndex());
     }
 
-    // -------------------------------------------------------------------------
+    // ------------------------------------------------------ constantValueIndex
     public int getConstantValueIndex() {
         return constantValueIndex;
     }

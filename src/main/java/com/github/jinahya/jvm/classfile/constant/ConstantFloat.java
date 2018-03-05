@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlAttribute;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class ConstantFloat extends Constant32Info<ConstantFloat> {
+public class ConstantFloat extends Constant32<ConstantFloat> {
 
     // -------------------------------------------------------------------------
     public ConstantFloat() {

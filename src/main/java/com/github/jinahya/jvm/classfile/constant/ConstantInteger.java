@@ -19,7 +19,7 @@ package com.github.jinahya.jvm.classfile.constant;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public class ConstantInteger extends Constant32Info<ConstantInteger> {
+public class ConstantInteger extends Constant32<ConstantInteger> {
 
     // -------------------------------------------------------------------------
     public ConstantInteger() {

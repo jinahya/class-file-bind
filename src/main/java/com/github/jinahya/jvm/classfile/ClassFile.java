@@ -54,7 +54,7 @@ public class ClassFile implements Serializable {
         majorVersion = in.readUnsignedShort();
         final int constantPoolCount = in.readUnsignedShort();
         if (constantPool == null) {
-            constantPool = new ArrayList<>(constantPoolCount - 1);
+            constantPool = new ArrayList<CpInfo>(constantPoolCount - 1);
         }
         for (int i = 1; i < constantPoolCount; i++) {
             final int tag = in.readUnsignedByte();
@@ -72,7 +72,7 @@ public class ClassFile implements Serializable {
         thisClass = in.readUnsignedShort();
         superClass = in.readUnsignedShort();
         final int interfacesCount = in.readUnsignedShort();
-        interfaces = new ArrayList<>(interfacesCount);
+        interfaces = new ArrayList<Integer>(interfacesCount);
         final int fieldsCount = in.readUnsignedShort();
     }
 
